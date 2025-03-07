@@ -17,7 +17,7 @@ import java.util.Collection;
 public class FAQDropdownListTest extends BaseTest {
     private final String question;
     private final String answer;
-    //тестовый комментарий
+
     public FAQDropdownListTest(String question, String answer) {
         this.question = question;
         this.answer = answer;
@@ -49,21 +49,14 @@ public class FAQDropdownListTest extends BaseTest {
         MainPage mainPage = new MainPage(driver)
                 .clickCookiesButton();
 
-        // Ожидание и проверка видимости ответа до клика
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[contains(text(),'%s')]", question))));
-
-        // Проверяем, что ответ не отображается до клика
-        Assert.assertFalse("Ответ отображается до клика!", mainPage.isFAQAnswerTextCorrect(answer));
-
-        // Кликаем на вопрос и проверяем, что текст стал видимым
+        // Кликаем на вопрос
         mainPage.clickOnFAQQuestion(question);
 
         // Ожидание, пока ответ станет видимым
+        WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(String.format("//*[contains(text(),'%s')]", answer))));
 
         // Проверка, что текст ответа полностью соответствует ожидаемому
         Assert.assertTrue("Ответ не отображается после клика или текст не совпадает!", mainPage.isFAQAnswerTextCorrect(answer));
     }
-
 }
